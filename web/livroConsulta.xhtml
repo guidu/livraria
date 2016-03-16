@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head/>
+    <ui:composition template="_template.xhtml">
+        <!--        <ui:define name="titulo">
+                    Consulta de livro
+                </ui:define>-->
+        <ui:define name="conteudo">
+            <h:form>
+                <p:panel id="panel" header="Consulta de livro" style="margin-bottom:10px;">
+                    <p:fieldset legend="Livros">
+                        <p:dataTable value="#{livroBean.livros}" var="livro" paginator="true" rows="5">
+                            <p:column headerText="ID">
+                                <h:outputText value="#{livro.id}"/>
+                            </p:column> 
+                            <p:column headerText="Título">
+                                <h:outputText value="#{livro.titulo}"/>
+                            </p:column>
+                            <p:column headerText="Preço">
+                                <h:outputText value="#{livro.preco}">
+                                    <f:convertNumber type="currency"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="ISBN">
+                                <!--<f:facet name="header">ISBN</f:facet>-->
+                                <h:outputText value="#{livro.isbn}"/>
+                            </p:column>
+                            <!--                    <p:column headerText="Data Lançamento">
+                                                    <h:outputText value="#{livro.dataLancamento}">
+                                                        <f:convertDateTime dateStyle="full" type="both"/>
+                                                    </h:outputText>
+                                                </p:column>-->
+                        </p:dataTable>
+                    </p:fieldset>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head/>
+    <ui:composition template="_template.xhtml">
+<!--        <ui:define name="titulo">Cadastro de Usuário</ui:define>-->
+        <ui:define name="conteudo">
+            <h:form>
+                <p:panel id="panel" header="Consulta de livro" style="margin-bottom:10px;">
+                    <p:messages autoUpdate="true"/>
+                    <p:growl autoUpdate="true"/>
+                    <p:fieldset legend="Dados Usuários">
+                        <h:panelGrid columns="2" style="border: 0">
+                            <p:outputLabel value="Nome" for="nome"/>
+                            <p:inputText id="nome" value="#{usuarioBean.usuario.nome}" maxlength="45" size="20" 
+                                         required="true"
+                                         requiredMessage="O preenchimento do campo 'NOME' é obrigatório."  >
+                                <f:ajax event="blur"/>
+                            </p:inputText>
+                            <p:outputLabel value="CPF" for="cpf"/>
+                            <p:inputMask id="cpf" value="#{usuarioBean.usuario.cpf}" mask="999.999.999-99">
+                                <f:ajax event="blur"/>
+                            </p:inputMask>
+                            <p:outputLabel value="Usuário" for="usuario"/>
+                            <p:inputText id="usuario" value="#{usuarioBean.usuario.usuario}"
+                                         required="true"
+                                         requiredMessage="O preenchimento do campo 'USUÁRIO' é obrigatório."  >
+                                <f:ajax event="blur"/>
+                            </p:inputText>
+                            <p:outputLabel value="Senha" for="senha"/>
+                            <p:password id="senha" value="#{usuarioBean.usuario.senha}" maxlength="8" size="8" 
+                                        required="true"
+                                        requiredMessage="O preenchimento do campo 'SENHA' é obrigatório."  >
+                                <f:ajax event="blur"/>
+                            </p:password>
+                            <p:outputLabel value="Confirmar Senha" for="confirmaSenha"/>
+                            <p:password id="confirmaSenha" value="#{usuarioBean.usuario.confirmaSenha}" maxlength="8" size="8" 
+                                        required="true"
+                                        requiredMessage=" O preenchimento do campo 'CONFIRMA SENHA' é obrigatório."  >
+                                <f:ajax event="blur"/>
+                            </p:password>
+                            <p:commandButton value="Gravar" update="panel" action="#{usuarioBean.grava}" >
+                                <p:resetInput target="panel"/>
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </p:fieldset>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

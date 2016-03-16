@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<script linguage="javascript">
+    function mascara(o, f) {alert("sei");
+        v_obj = o;
+        v_fun = f;
+        setTimeout("execmascara()", 1);
+    }
+    function execmascara() {
+        v_obj.value = v_fun(v_obj.value);
+    }
+    function valor(v) {
+        v = v.replace(/\D/g, "");
+        v = v.replace(/[0-9]{15}/, "inválido");
+        v = v.replace(/(\d{1})(\d{11})$/, "$1.$2"); // coloca ponto antes dos
+        // Ãºltimos 11 digitos
+        v = v.replace(/(\d{1})(\d{8})$/, "$1.$2"); // coloca ponto antes dos
+        // Ãºltimos 8 digitos
+        v = v.replace(/(\d{1})(\d{5})$/, "$1.$2"); // coloca ponto antes dos
+        // Ãºltimos 5 digitos
+        v = v.replace(/(\d{1})(\d{1,2})$/, "$1,$2"); // coloca virgula antes dos
+        // Ãºltimos 2 digitos
+        return v;
+    }
+</script>
+    <ui:composition template="_template.xhtml">
+        <!--        <ui:define name="titulo">
+                    Cadastro de livros
+                </ui:define>-->
+        <ui:define name="conteudo">
+            <h:form>
+                <p:panel id="panel" header="Cadastro de livros" style="margin-bottom:10px;">               
+                    <p:messages autoUpdate="true"/>
+                    <!--
+                    autoUpdate="true"
+                    Indica que todas as vezes que uma mensagem ajax for disparada, ela se auto renderizará
+                    -->
+                    <p:growl autoUpdate="true"/>
+                    <!--h:graphicImage library="img" name="cuica.png"/-->
+                    <p:fieldset legend="Dados do livro">
+                        <h:panelGrid columns="2" style="border: 0">
+                            <p:outputLabel value="Título:" for="titulo"/>
+                            <p:inputText id="titulo" value="#{livroBean.livro.titulo}" 
+                                         required="true" 
+                                         requiredMessage="Título obrigatório."
+                                         validatorMessage="O campo título deve ter no máximo 40 caracteres.">
+                                <f:validateLength maximum="40"/>
+                                <f:ajax event="blur"/>
+                            </p:inputText>
+                            <p:outputLabel value="ISBN" for="isbn"/>
+                            <p:inputText id="isbn" value="#{livroBean.livro.isbn}" validator="#{livroBean.comecaComDigitoUm}" />
+                            <p:outputLabel value="Preço:" for="preco"/>
+                            <p:inputText id="preco" label="preco" value="#{livroBean.livro.preco}" onkeypress="mascara(this, valor);"/>
+                            <p:outputLabel value="Data Lançamento:" for="dataLancamento"/>
+                            <p:calendar id="dataLancamento" value="#{livroBean.livro.dataLancamento.time}" pattern="dd/MM/yyyy" />
+                        </h:panelGrid>
+                    </p:fieldset>
+                    <p:fieldset legend="Dados Autor">
+                        <p:outputLabel value="Selecione:" for="autor"/>
+                        <p:selectOneMenu value="#{livroBean.autorId}" id="autor">
+                            <!--f:selectItem value="Escolha uma opção" noSelectionOption="true"/-->
+                            <f:selectItems value="#{livroBean.autores}" var="autor" itemValue="#{autor.id}" itemLabel="#{autor.nome}"/>
+                        </p:selectOneMenu>
+                        <br/>
+                        <br/>
+                        <p:commandButton value="Adicionar Autor" action="#{livroBean.gravaAutor}" process="@this autor" update="tabelaAutores"/>
+                        <!--<f:ajax == process & render==update atributo '@this' é utilizado para enviar o próprio componente-->
+                        <p:commandLink value="Novo autor" action="#{livroBean.formAutor}" immediate="true"/>
+                        <!--f:ajax execute="autor" render="tabelaAutores"/-->
+                        <!--</p:commandButton>-->
+                        <br/>
+                    </p:fieldset>
+                    <p:fieldset legend="Autores Selecionados">
+                        <h:dataTable value="#{livroBean.autoresDoLivro}" var="autor" id="tabelaAutores">
+                            <p:column>
+                                <h:outputText value="#{autor.nome}"/>
+                            </p:column>
+                        </h:dataTable>
+                    </p:fieldset>
+                    <p:commandButton value="Gravar" action="#{livroBean.grava}"/>
+                </p:panel></h:form>
+        </ui:define>
+    </ui:composition>
+    <!--</h:body>-->
+</html>
